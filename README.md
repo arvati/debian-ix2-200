@@ -31,8 +31,8 @@ Patch the sources
 ```bash
 cd /usr/src/
 tar xjvf linux-sources-3.2.tar
-wget config-3.2.46-ix2_200
-wget 0001-Modified-rd88f6281-setup-file-to-support-ix2-200.patch
+wget https://raw.github.com/daniviga/ix2-200/master/config-3.2.46-ix2_200
+wget https://raw.github.com/daniviga/ix2-200/master/0001-Modified-rd88f6281-setup-file-to-support-ix2-200.patch
 ```
 ```bash
 cd linux-sources-3.2
