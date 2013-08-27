@@ -35,7 +35,7 @@ while(1)
         open(HTLED, '>/sys/devices/platform/leds-gpio/leds/health_led/brightness');
         print HTLED "255";
         close(HTLED);
-        system("poweroff")
+        system("poweroff");
     }
     if ($code == 2 && $value == 1)
     {
