@@ -1,0 +1,59 @@
+#!/usr/bin/perl
+
+## Requires killall utility (from psutils) ##
+
+## If hostapd is running, switch on backup_led
+if(!system("killall -q -0 hostapd"))
+{
+    open(BKLED, '>/sys/devices/platform/leds-gpio/leds/backup_led/brightness');
+    print BKLED "255";
+    close(BKLED);
+}
+
+open(FILE, "/dev/input/event0");
+binmode(FILE);
+
+while(1)
+{
+    read(FILE, $buf, 16);
+    ($time1, $time2, $type, $code, $value) = unpack("iissi", $buf);
+    #printf("%f %05d %05d 0x%08x\n", $time1+$time2/1000000, $type, $code, $value);
+    if($code == 1 && $value == 1)
+    {
+        ## When power button is pressed:
+        ## - Switch off backup_led (used by hostapd)
+        ## - Switch off power_led
+        ## - Switch on health_led
+        ## Call "poweroff"
+
+	open(BKLED, '>/sys/devices/platform/leds-gpio/leds/backup_led/brightness');
+        print BKLED "0";
+        close(BKLED);
+        open(PWLED, '>/sys/devices/platform/leds-gpio/leds/power_led/brightness');
+        print PWLED "0";
+        close(PWLED);
+        open(HTLED, '>/sys/devices/platform/leds-gpio/leds/health_led/brightness');
+        print HTLED "255";
+        close(HTLED);
+        system("poweroff")
+    }
+    if ($code == 2 && $value == 1)
+    {
+        ## When backup button is pressed:
+        ## - If hostapd is not running, start it and switch on backup_led
+        ## - If hostapd is running, stop it and switch off backup_led
+
+	open(BKLED, '>/sys/devices/platform/leds-gpio/leds/backup_led/brightness');
+        if(system("killall -q -0 hostapd"))
+        {
+            system("service hostapd start 2>&1 > /dev/null");
+            print BKLED "255";
+        }
+        else
+        {
+            system("service hostapd stop 2>&1 > /dev/null");
+            print BKLED "0";
+	}
+        close(BKLED);
+    }
+}
