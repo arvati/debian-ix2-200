@@ -71,8 +71,9 @@ I suggest to create a dev environment using an LXC container with Debian Wheezy 
 The config file provided is higly customized and stripped down. Please revise your configuration using ```make menuconfig``` before compile the kernel (see below).
 
 
-Setup cross compiler
+Cross compiling the kernel
 ------
+### Setup cross compiler ###
 
 ```bash
 dpkg --add-architecture armel
@@ -94,8 +95,7 @@ apt-get install gcc-4.7-arm-linux-gnueabi binutils-arm-linux-gnueabi
 update-alternatives --install /usr/bin/arm-linux-gnueabi-gcc arm-linux-gnueabi-gcc /usr/bin/arm-linux-gnueabi-gcc-4.7 46 \
       --slave /usr/bin/arm-linux-gnueabi-gcov arm-linux-gnueabi-gcov /usr/bin/arm-linux-gnueabi-gcov-4.7
 ```
-Patch the sources
-------
+### Patch the sources ###
 ```bash
 cd /usr/src/
 tar xjvf linux-sources-3.2.tar
@@ -106,8 +106,7 @@ wget https://raw.github.com/daniviga/ix2-200/master/0001-Modified-rd88f6281-setu
 cd linux-sources-3.2
 patch -p1 < 0001-Modified-rd88f6281-setup-file-to-support-ix2-200.patch
 ```
-Configure the kernel
-------
+### Configure the kernel ###
 ```bash
 export CC=arm-linux-gnueabi-gcc
 export CROSS_COMPILE=arm-linux-gnueabi-
@@ -120,14 +119,12 @@ cp ../config-3.2.46-ix2_200 .config
 make oldconfig
 make menuconfig
 ```
-Build the kernel
-------
+### Build the kernel ###
 ```bash
 fakeroot make-kpkg -j2 --arch arm --cross-compile arm-linux-gnueabi- --append-to-version=-ix2-200 --initrd kernel_image kernel_headers
 ```
 
-Install the new kernel on the device
-------
+### Install the new kernel on the device ###
 ```bash
 mkimage -A arm -O linux -T ramdisk -C gzip -a 0x00000000 -e 0x00000000 -n initramfs -d initrd.img-3.2.46 uInitrd-ix200
 mkimage -A arm -O linux -T kernel  -C none -a 0x00008000 -e 0x00008000 -n Linux-3.2.46 -d vmlinuz-3.2.46 uImage-ix200
