@@ -149,7 +149,7 @@ ext2load usb 0:1 0x01100000 /uInitrd-new
 bootm 0x00800000 0x01100000
 ```
 
-## Boot from internal flash ###
+### Boot from internal flash ###
 ```bash
 setenv mtdparts 'mtdparts=orion_nand:0x100000@0x000000(uboot)ro,0x20000@0xA0000(uboot_env),0x300000@0x100000(uImage),0x1000000@0x540000(uInitrd)'
 setenv bootargs_console 'console=ttyS0,115200 mtdparts=orion_nand:0x300000@0x100000(uImage),0x1000000@0x540000(uInitrd) root=/dev/mapper/sata-root'
