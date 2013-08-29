@@ -140,6 +140,27 @@ nandwrite -p /dev/mtd0 /boot/uImage-ix200
 nandwrite -p /dev/mtd1 /boot/uInitrd-ix200 
 ```
 
+Examples: boot from USB
+------
+```bash
+usb start
+setenv bootargs_console 'console=ttyS0,115200 mtdparts=orion_nand:0x300000@0x100000(uImage),0x1000000@0x540000(uInitrd) root=/dev/mapper/sata-root'
+setenv bootargs $(bootargs_console)
+ext2load usb 0:1 0x00800000 /uImage-new
+ext2load usb 0:1 0x01100000 /uInitrd-new
+bootm 0x00800000 0x01100000
+```
+
+Examples: boot from internal flash
+------
+```bash
+setenv mtdparts 'mtdparts=orion_nand:0x100000@0x000000(uboot)ro,0x20000@0xA0000(uboot_env),0x300000@0x100000(uImage),0x1000000@0x540000(uInitrd)'
+setenv bootargs_console 'console=ttyS0,115200 mtdparts=orion_nand:0x300000@0x100000(uImage),0x1000000@0x540000(uInitrd) root=/dev/mapper/sata-root'
+setenv bootcmd 'setenv bootargs $(bootargs_console); nand read 0x800000 uImage; nand read 0x1100000 uInitrd; bootm 0x00800000 0x01100000'
+saveenv
+reset
+```
+
 ### Links and sources
 + http://blog.nobiscuit.com/2011/08/06/installing-debian-to-disk-on-an-ix2-200/
 + http://blog.nobiscuit.com/2012/02/15/kernel-patch-to-support-leds-buttons-and-sensors/
