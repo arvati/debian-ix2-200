@@ -99,7 +99,7 @@ update-alternatives --install /usr/bin/arm-linux-gnueabi-gcc arm-linux-gnueabi-g
 ```bash
 cd /usr/src/
 tar xjvf linux-source-3.2.tar.bz2
-wget https://raw.github.com/daniviga/ix2-200/master/config-3.2.46-ix2_200
+wget https://raw.github.com/daniviga/ix2-200/master/configs/config-3.2.46-ix2_200-2
 wget https://raw.github.com/daniviga/ix2-200/master/0001-Modified-rd88f6281-setup-file-to-support-ix2-200.patch
 ```
 ```bash
