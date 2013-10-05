@@ -98,12 +98,12 @@ update-alternatives --install /usr/bin/arm-linux-gnueabi-gcc arm-linux-gnueabi-g
 ### Patch the sources ###
 ```bash
 cd /usr/src/
-tar xjvf linux-sources-3.2.tar
+tar xjvf linux-source-3.2.tar.bz2
 wget https://raw.github.com/daniviga/ix2-200/master/config-3.2.46-ix2_200
 wget https://raw.github.com/daniviga/ix2-200/master/0001-Modified-rd88f6281-setup-file-to-support-ix2-200.patch
 ```
 ```bash
-cd linux-sources-3.2
+cd linux-source-3.2
 patch -p1 < 0001-Modified-rd88f6281-setup-file-to-support-ix2-200.patch
 ```
 ### Configure the kernel ###
