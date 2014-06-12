@@ -1,3 +1,5 @@
+***This project is no more maintained***
+
 Debian Linux on ix2-200
 =======
 
