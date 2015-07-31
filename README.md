@@ -72,9 +72,6 @@ I suggest to create a dev environment using an LXC container with Debian Jessie 
 sudo lxc-create -t debian -n crossdebian -- -r jessie -a i686
 ```
 
-The config file provided is higly customized and stripped down. Please revise your configuration using ```make menuconfig``` before compile the kernel (see below).
-
-
 Cross compiling the kernel
 ------
 ### Setup cross compiler ###
