@@ -118,7 +118,7 @@ make  dtbs
 # Optional
 make menuconfig
 
-fakeroot make-kpkg -j2 --arch arm --cross-compile arm-linux-gnueabi- --initrd kernel_image kernel_headers
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- EXTRAVERSION=-ix2-200 KDEB_PKGVERSION=2 KBUILD_DEBARCH=armel deb-pkg
 ```
 
 ### Append the dtb to the kernel ###
