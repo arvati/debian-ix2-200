@@ -104,7 +104,7 @@ export DEB_HOST_ARCH=armel
 
 make-kpkg clean
 
-wget -O- https://raw.githubusercontent.com/daniviga/ix2-200/master/configs/config-3.16.0-4-kirkwood > .config
+wget -O- https://raw.githubusercontent.com/daniviga/ix2-200/master/configs/config-3.16.0-4-kirkwood-ix2-200 > .config
 make oldconfig
 ```
 
