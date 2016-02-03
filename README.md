@@ -86,7 +86,7 @@ echo "deb-src http://mi.mirror.garr.it/mirrors/debian/ jessie main contrib non-f
 
 dpkg --add-architecture armel
 apt-get update
-apt-get install wget devscripts crossbuild-essential-armel kernel-package
+apt-get install wget devscripts crossbuild-essential-armel kernel-package ncurses-devel
 ```
 
 ### Get the sources ###
