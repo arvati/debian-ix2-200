@@ -104,13 +104,13 @@ export DEB_HOST_ARCH=armel
 
 make-kpkg clean
 
-wget -O- https://raw.githubusercontent.com/daniviga/ix2-200/master/configs/config-3.16.0-4-kirkwood-ix2-200 > .config
+wget -O- https://raw.githubusercontent.com/daniviga/ix2-200/master/configs/config-3.16.7-ix2-200 > .config
 make oldconfig
 ```
 
 ### Generate the dtb only ###
 ```bash
-make  dtbs
+make dtbs
 ```
 
 ### Build the full kernel ###
@@ -118,20 +118,20 @@ make  dtbs
 # Optional
 make menuconfig
 
-make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- EXTRAVERSION=-ix2-200 KDEB_PKGVERSION=2 KBUILD_DEBARCH=armel deb-pkg
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- EXTRAVERSION=-ix2-200 KDEB_PKGVERSION=1 KBUILD_DEBARCH=armel deb-pkg
 ```
 
 ### Append the dtb to the kernel ###
 ```bash
 cp arch/arm/boot/dts/kirkwood-iomega_ix2_200.dtb /boot
 cd /boot
-cat vmlinuz-3.16.0-4-kirkwood kirkwood-iomega_ix2_200.dtb > vmlinuz-3.16.0-4-kirkwood-dtb
+cat vmlinuz-3.16.7-ix2-200 kirkwood-iomega_ix2_200.dtb > vmlinuz-3.16.7-ix2-200-dtb
 ```
 
 ### Install the new kernel on the device ###
 ```bash
-mkimage -A arm -O linux -T ramdisk -C gzip -a 0x00000000 -e 0x00000000 -n initramfs -d initrd.img-3.16.0-4-kirkwood uInitrd
-mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n Linux+dtb -d vmlinuz-3.16.0-4-kirkwood-dtb uImage-dtb
+mkimage -A arm -O linux -T ramdisk -C gzip -a 0x00000000 -e 0x00000000 -n initramfs -d initrd.img-3.16.7-ix2-200 uInitrd
+mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n Linux+dtb -d vmlinuz-3.16.7-ix2-200-dtb uImage-dtb
 ```
 ```bash
 flash_eraseall /dev/mtd0
