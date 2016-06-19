@@ -1,0 +1,612 @@
+# Portuguese translation of the kernel-package language file resulting in
+# kernel/po/pt.po
+# Copyright © 2016 Ademar Arvati Filho <vanaware@vanaware.com>
+# This file is distributed under the same license as the kernel-package package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kernel-po-pt_01.001\n"
+"Report-Msgid-Bugs-To: srivasta@debian.org\n"
+"POT-Creation-Date: 2007-11-15 22:29+0900\n"
+"PO-Revision-Date: 2016-06-16 00:00-0300\n"
+"Last-Translator: Ademar Arvati Filho <vanaware@vanaware.com>\n"
+"Language-Team: German <debian-l10n-portuguese@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+
+#. Type: text
+#. Description
+#: ../templates:1001
+msgid "You are installing a kernel with an initrd image"
+msgstr "Instalando um kernel com uma imagem initrd"
+
+#. Type: text
+#. Description
+#: ../templates:1001
+msgid ""
+"You are attempting to install an initrd kernel image (version =V) on a "
+"machine currently running kernel version ${hostversion}."
+msgstr ""
+"Tentando instalar uma imagem initrd kernel (versão =V) em um "
+"equipamento que esta rodando com kernel versião ${hostversion}."
+
+#. Type: text
+#. Description
+#: ../templates:1001
+msgid ""
+"I have been unable to find a suitable tool for generating initrd images (I "
+"looked at the list \"${ramdisk}\") This will break the installation, unless "
+"such tools are also being installed right now in the same run. (This means, "
+"one from the following list ${initrddep})"
+msgstr ""
+"Não encontrei uma ferramenta para gerar imagens initrd (Procurei "
+"na lista \"${ramdisk}\") A instalação será interrompida, a não ser "
+"que esta ferramenta esteja sendo instalada em conjunto. (Ou seja, "
+"alguma da lista a seguir ${initrddep})"
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../templates:2001 ../templates:3001 ../templates:4001 ../templates:13001
+#: ../templates:14001
+msgid "Do you want to abort now?"
+msgstr "Deseja abortar agora?"
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../templates:2001 ../templates:3001 ../templates:4001
+msgid ""
+"You are attempting to install an initrd kernel image (version =V) This will "
+"not work unless you have configured your boot loader to use initrd. (An "
+"initrd image is a kernel image that expects to use an INITial Ram Disk to "
+"mount a minimal root file system into RAM and use that for booting)."
+msgstr ""
+"Tentando instalar uma imagem initrd kernel (versão =V) Isto não vai "
+"funcionar caso seu boot loader não esteja pronto para usar initrd. (Uma "
+"imagem initrd é uma imagem kernel que espera a montagem de uma INITial Ram Disk "
+"com um sistema de arquivo root na memória RAM para ser utilizado durante booting)."
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../templates:2001 ../templates:3001 ../templates:4001
+msgid ""
+"I repeat, You need to configure your boot loader -- please read your "
+"bootloader documentation for details on how to add initrd images."
+msgstr ""
+"Repito, voce precisa configurar seu boot loader -- por favor leia "
+"a documentação de seu bootloader para detalhes de como adicionar imagens initrd."
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../templates:2001 ../templates:3001 ../templates:4001
+msgid ""
+"If you have already done so, and you wish to get rid of this message, please "
+"put\n"
+" \"do_initrd = Yes\"\n"
+"in /etc/kernel-img.conf. Note that this is optional, but if you do not, you "
+"will continue to see this message whenever you install a kernel image using "
+"initrd."
+msgstr ""
+"Se voce já fez isso e não deseja receber esta mensagem por favor \n "
+"coloque\n"
+" \"do_initrd = Yes\"\n"
+"no arquivo /etc/kernel-img.conf. Isto é opcional, mas colocando isso, evitará "
+"de visualizar esta mensagem a cada instalação de uma imagem kernel usando "
+"initrd."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"As a reminder, in order to configure LILO, you need to add an 'initrd=/"
+"initrd.img' to the image=/vmlinuz stanza of your /etc/lilo.conf"
+msgstr ""
+"Lembrete, para configurar LILO, precisa adicionar 'initrd=/"
+"initrd.img' ao item image=/vmlinuz de seu /etc/lilo.conf"
+
+#. Type: boolean
+#. Description
+#: ../templates:4001
+msgid ""
+"As a reminder, in order to configure ELILO, you need to add an 'initrd=/"
+"initrd.img' to the image=/vmlinuz stanza of your /etc/elilo.conf"
+msgstr ""
+"Lembrete, para configurar ELILO, precisa adicionar 'initrd=/"
+"initrd.img' ao item image=/vmlinuz stanza of yourde seu /etc/elilo.conf"
+
+#. Type: text
+#. Description
+#: ../templates:5001
+msgid "Lilo has a ramdisk line, which should be commented or removed"
+msgstr "Lilo tem uma linha de ramdisk, que precisa ser retirada ou comentada"
+
+#. Type: text
+#. Description
+#: ../templates:5001
+msgid ""
+"I have found a line ${LINE} in /etc/lilo.conf that should be removed or "
+"commented out, since you are using initrd/initramfs."
+msgstr ""
+"Encontrei a linha ${LINE} em /etc/lilo.conf que deveria ser removida "
+"ou comentada pois esta utilizando initrd/initramfs."
+
+#. Type: note
+#. Description
+#: ../templates:6001
+msgid "Aborting install since loading an initrd kernel image"
+msgstr "Abortando instalação pois esta com uma imagem kernel initrd"
+
+#. Type: note
+#. Description
+#: ../templates:6001
+msgid ""
+"You are attempting to install an initrd kernel image (version =V) This will "
+"not work unless you have configured your boot loader to use initrd. (An "
+"initrd image is a kernel image that expects to use an INITial Ram Disk to "
+"mount a minimal root file system into RAM and use that for booting). "
+"Unfortunately, since this Question pertaining to this was not shown, and the "
+"default action is to abort the install. =ST-image-=V aborted."
+msgstr ""
+"Esta instalando uma imagem kernel initrd (version =V) Isto somente "
+"funciona com um boot loader que utliza initrd. (Uma imagem "
+"initrd é uma imagem kernel que espera que uma INITial Ram Disk monte "
+"um sistema minima de arquivos root na memoria RAM e use isso durante booting). "
+"Infelizmente, como esta mensagem não foi mostrada, e a ação padrão é abortar "
+"a instalação. =ST-image-=V abortado."
+
+#. Type: note
+#. Description
+#: ../templates:7001
+msgid "Failed to move modules out of the way, aborting"
+msgstr "Erro ao mover modulos do caminho, abortando"
+
+#. Type: note
+#. Description
+#: ../templates:7001
+msgid ""
+"You are attempting to install a kernel image (version =V) However, the "
+"directory ${modules_base}/=V/kernel still exists."
+msgstr ""
+"You are attempting to install a kernel image (version =V) However, the "
+"directory ${modules_base}/=V/kernel still exists."
+
+#. Type: note
+#. Description
+#: ../templates:7001
+msgid ""
+"As you have instructed, an attempt was made to move the directory out of the "
+"way. Unfortunately, There was a problem moving ${modules_base}/=V to "
+"${modules_base}/${dest}."
+msgstr ""
+"As you have instructed, an attempt was made to move the directory out of the "
+"way. Unfortunately, There was a problem moving ${modules_base}/=V to "
+"${modules_base}/${dest}."
+
+#. Type: note
+#. Description
+#: ../templates:7001
+msgid ""
+"I suggest you move ${modules_base}/${version} out of the way manually, and then "
+"try re-installing this image."
+msgstr ""
+"I suggest you move ${modules_base}/${version} out of the way manually, and then "
+"try re-installing this image."
+
+#. Type: note
+#. Description
+#: ../templates:7001
+msgid "I am aborting."
+msgstr "Estou abortando"
+
+#. Type: boolean
+#. Description
+#: ../templates:8001
+msgid "Stop install since the kernel-image is already installed?"
+msgstr "Interromper instalação pois a imagem deste kernel já esta instalada?"
+
+#. Type: boolean
+#. Description
+#: ../templates:8001
+msgid ""
+"You are attempting to install a kernel image (version =V) However, the "
+"directory ${modules_base}/=V/kernel still exists.  If this directory belongs "
+"to a previous ${package} package, and if you have deselected some modules, "
+"or installed standalone modules packages, this could be bad."
+msgstr ""
+"You are attempting to install a kernel image (version =V) However, the "
+"directory ${modules_base}/=V/kernel still exists.  If this directory belongs "
+"to a previous ${package} package, and if you have deselected some modules, "
+"or installed standalone modules packages, this could be bad."
+
+#. Type: boolean
+#. Description
+#: ../templates:8001
+msgid ""
+"If ${modules_base}/=V/kernel belongs to a old install of ${package}, then "
+"this is your last chance to abort the installation of this kernel image "
+"(nothing has been changed yet)."
+msgstr ""
+"If ${modules_base}/=V/kernel belongs to a old install of ${package}, then "
+"this is your last chance to abort the installation of this kernel image "
+"(nothing has been changed yet)."
+
+#. Type: boolean
+#. Description
+#: ../templates:8001
+msgid ""
+"If you know what you are doing, and if you feel that this image should be "
+"installed despite this anomaly, Please answer n to the question."
+msgstr ""
+"If you know what you are doing, and if you feel that this image should be "
+"installed despite this anomaly, Please answer n to the question."
+
+#. Type: boolean
+#. Description
+#: ../templates:8001
+msgid ""
+"Otherwise, I suggest you move ${modules_base}/=V/kernel out of the way, "
+"perhaps to ${modules_base}/=V.kernel.old or something, and then try re-"
+"installing this image."
+msgstr ""
+"Otherwise, I suggest you move ${modules_base}/=V/kernel out of the way, "
+"perhaps to ${modules_base}/=V.kernel.old or something, and then try re-"
+"installing this image."
+
+#. Type: note
+#. Description
+#: ../templates:9001
+msgid "Aborting install since modules exist"
+msgstr "Abortando Instalação pois existem modulos"
+
+#. Type: note
+#. Description
+#: ../templates:9001
+msgid ""
+"You are attempting to install an initrd kernel image (version =V). However, "
+"the corresponding kernel modules directory exists, and there was no "
+"permission given to silently delete the modules directory.  Unfortunately, "
+"since this Question pertaining to this was not shown, and the default action "
+"is to abort the install. =ST-image-=V aborted."
+msgstr ""
+"You are attempting to install an initrd kernel image (version =V). However, "
+"the corresponding kernel modules directory exists, and there was no "
+"permission given to silently delete the modules directory.  Unfortunately, "
+"since this Question pertaining to this was not shown, and the default action "
+"is to abort the install. =ST-image-=V aborted."
+
+#. Type: note
+#. Description
+#: ../templates:10001
+msgid "The kernel version running is the same as the one being installed"
+msgstr "A versão do kernel em uso é a mesma do que esta sendo instalado"
+
+#. Type: note
+#. Description
+#: ../templates:10001
+msgid ""
+"You are attempting to install a kernel version that is the same as the "
+"version you are currently running (version ${running}). The modules list is "
+"quite likely to have been changed, and the modules dependency file "
+"${modules_base}/=V/modules.dep needs to be re-built. It can not be built "
+"correctly right now, since the module list for the running kernel are likely "
+"to be different from the kernel installed. I am creating a new modules.dep "
+"file, but that may not be correct. It shall be regenerated correctly at next "
+"reboot."
+msgstr ""
+"You are attempting to install a kernel version that is the same as the "
+"version you are currently running (version ${running}). The modules list is "
+"quite likely to have been changed, and the modules dependency file "
+"${modules_base}/=V/modules.dep needs to be re-built. It can not be built "
+"correctly right now, since the module list for the running kernel are likely "
+"to be different from the kernel installed. I am creating a new modules.dep "
+"file, but that may not be correct. It shall be regenerated correctly at next "
+"reboot."
+
+#. Type: note
+#. Description
+#: ../templates:10001
+msgid ""
+"I repeat: you have to reboot in order for the modules file to be created "
+"correctly. Until you reboot, it may be impossible to load some modules. "
+"Reboot as soon as this install is finished (Do not reboot right now, since "
+"you may not be able to boot back up until installation is over, but boot "
+"immediately after). I can not stress that too much. You need to reboot soon."
+msgstr ""
+"I repeat: you have to reboot in order for the modules file to be created "
+"correctly. Until you reboot, it may be impossible to load some modules. "
+"Reboot as soon as this install is finished (Do not reboot right now, since "
+"you may not be able to boot back up until installation is over, but boot "
+"immediately after). I can not stress that too much. You need to reboot soon."
+
+#. Type: boolean
+#. Description
+#: ../templates:11001
+msgid "Create a symbolic link to the current kernel image?"
+msgstr "Criar um link simbolico para a imagem atual do kernel?"
+
+#. Type: boolean
+#. Description
+#: ../templates:11001
+msgid ""
+"I notice that you do not have ${kimage} symbolic link. I can create one for "
+"you, and it shall be updated by newer kernel image packages. This is useful "
+"if you use a boot loader like lilo."
+msgstr ""
+"I notice that you do not have ${kimage} symbolic link. I can create one for "
+"you, and it shall be updated by newer kernel image packages. This is useful "
+"if you use a boot loader like lilo."
+
+#. Type: note
+#. Description
+#: ../templates:12001
+msgid "Image symbolic link destination is a directory, aborting"
+msgstr "O destino do link simbólico é um diretorio, abortando"
+
+#. Type: note
+#. Description
+#: ../templates:12001
+msgid ""
+"${kimage} is a directory, which I did not expect.  I am trying to create a "
+"symbolic link with that name linked to ${image_dest}. Since a directory "
+"exists here, my assumptions are way off, and I am aborting."
+msgstr ""
+"${kimage} is a directory, which I did not expect.  I am trying to create a "
+"symbolic link with that name linked to ${image_dest}. Since a directory "
+"exists here, my assumptions are way off, and I am aborting."
+
+#. Type: boolean
+#. Description
+#: ../templates:13001
+msgid ""
+"This may be benign, (You may have versioned symbol names, for instance). Or "
+"this could be an error. depmod exited with return value ${exit_value} "
+"${SIGNAL}${CORE}. I am deleting the file ${modules_base}/=V/modules.dep. "
+"However, since depmod is run at install time, we could just defer running "
+"depmod."
+msgstr ""
+"This may be benign, (You may have versioned symbol names, for instance). Or "
+"this could be an error. depmod exited with return value ${exit_value} "
+"${SIGNAL}${CORE}. I am deleting the file ${modules_base}/=V/modules.dep. "
+"However, since depmod is run at install time, we could just defer running "
+"depmod."
+
+#. Type: boolean
+#. Description
+#: ../templates:14001
+msgid ""
+"This may be benign, (You may have versioned symbol names, for instance). Or "
+"this could be an error. depmod exited with return value ${exit_value} . "
+"${SIGNAL} ${CORE} Since this image uses initrd, I am not deleting the file "
+"${modules_base}/=V/modules.dep. However, there is no guarantee that the file "
+"is valid. I would strongly advice you to either abort and fix the errors in "
+"depmod, or regenerate the initrd image with a known good modules.dep file. I "
+"repeat, an initrd kernel image with a bad modules.dep shall fail to boot."
+msgstr ""
+"This may be benign, (You may have versioned symbol names, for instance). Or "
+"this could be an error. depmod exited with return value ${exit_value} . "
+"${SIGNAL} ${CORE} Since this image uses initrd, I am not deleting the file "
+"${modules_base}/=V/modules.dep. However, there is no guarantee that the file "
+"is valid. I would strongly advice you to either abort and fix the errors in "
+"depmod, or regenerate the initrd image with a known good modules.dep file. I "
+"repeat, an initrd kernel image with a bad modules.dep shall fail to boot."
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../templates:15001 ../templates:16001
+msgid "Should the old initrd link be deleted now?"
+msgstr "O velho link initrd deveria ser apagado agora?"
+
+#. Type: boolean
+#. Description
+#: ../templates:15001
+msgid ""
+"I note that you have an old initrd symbolic link in place. The name of the "
+"symbolic link is being changed to initrd.img. If the old link is deleted, "
+"you may have to update the boot loader. If the link is left in place, it "
+"will point to the wrong image."
+msgstr ""
+"I note that you have an old initrd symbolic link in place. The name of the "
+"symbolic link is being changed to initrd.img. If the old link is deleted, "
+"you may have to update the boot loader. If the link is left in place, it "
+"will point to the wrong image."
+
+#. Type: boolean
+#. Description
+#: ../templates:16001
+msgid ""
+"I note that you have an old ${image_dir}/initrd symbolic link in place.  The "
+"location of the symbolic link is now the same location as the kernel image "
+"symbolic links, namely, in ${image_dest}.  If the old link is deleted, you "
+"may have to update the boot loader. If the link is left in place, it will "
+"point to the wrong image."
+msgstr ""
+"I note that you have an old ${image_dir}/initrd symbolic link in place.  The "
+"location of the symbolic link is now the same location as the kernel image "
+"symbolic links, namely, in ${image_dest}.  If the old link is deleted, you "
+"may have to update the boot loader. If the link is left in place, it will "
+"point to the wrong image."
+
+#. Type: boolean
+#. Description
+#: ../templates:17001
+msgid "Should the old /System.map link be deleted now?"
+msgstr "Deveria ser apagado o velho link /System.map agora?"
+
+#. Type: boolean
+#. Description
+#: ../templates:17001
+msgid ""
+"You have /System.map symbolic link. These were installed by ancient kernel "
+"image packages. However, all the programs that look at the information in "
+"the map files (including top, ps, and klogd) also will look at /boot/System."
+"map-=V Having the symbolic link in / is technically detrimental (apart from "
+"cluttering up /); many programs, though looking in /boot, still allow /"
+"System.map to override. If you install multiple kernels on this machine, "
+"then the /System.map symbolic link only applies to one such kernel, for all "
+"other choices the symbols loaded will be wrong. Not having /System.map at "
+"all prevents this."
+msgstr ""
+"You have /System.map symbolic link. These were installed by ancient kernel "
+"image packages. However, all the programs that look at the information in "
+"the map files (including top, ps, and klogd) also will look at /boot/System."
+"map-=V Having the symbolic link in / is technically detrimental (apart from "
+"cluttering up /); many programs, though looking in /boot, still allow /"
+"System.map to override. If you install multiple kernels on this machine, "
+"then the /System.map symbolic link only applies to one such kernel, for all "
+"other choices the symbols loaded will be wrong. Not having /System.map at "
+"all prevents this."
+
+#. Type: boolean
+#. Description
+#: ../templates:18001
+msgid "Run the default bootloader?"
+msgstr "Rodar o bootloader padrão?"
+
+#. Type: boolean
+#. Description
+#: ../templates:18001
+msgid ""
+"The default boot loader for this architecture is ${loader}, which is present. "
+"However, you have not explicitly requested the boot loader ${loader} should be "
+"run in the configuration file /etc/kernel-img.conf, and you seem to have "
+"grub installed, and have set a postinst hook (which is used to hook in grub "
+"after a kernel image installation). At this point, it is perfectly likely "
+"that this system is using grub as a bootloader, and not the builtin default "
+"of ${loader}. If that is the case, running ${loader} instead of grub might make "
+"the machine unbootable. I need to know whether to run the default bootloader "
+"${loader}, or just let the postinst hook script update grub later. The default "
+"is to run ${loader}."
+msgstr ""
+"The default boot loader for this architecture is ${loader}, which is present. "
+"However, you have not explicitly requested the boot loader ${loader} should be "
+"run in the configuration file /etc/kernel-img.conf, and you seem to have "
+"grub installed, and have set a postinst hook (which is used to hook in grub "
+"after a kernel image installation). At this point, it is perfectly likely "
+"that this system is using grub as a bootloader, and not the builtin default "
+"of ${loader}. If that is the case, running ${loader} instead of grub might make "
+"the machine unbootable. I need to know whether to run the default bootloader "
+"${loader}, or just let the postinst hook script update grub later. The default "
+"is to run ${loader}."
+
+#. Type: note
+#. Description
+#. Type: note
+#. Description
+#: ../templates:19001 ../templates:20001
+msgid "Error running the boot loader in test mode."
+msgstr "Erro ao executar o bootloader no modo teste"
+
+#. Type: note
+#. Description
+#: ../templates:19001
+msgid ""
+"An error occurred while running the boot loader ${loader} in test mode. A "
+"log is available in ${temp_file_name}. Please edit /etc/${loader}.conf "
+"manually and re-run ${loader}, or make other arrangements to boot your "
+"machine."
+msgstr ""
+"An error occurred while running the boot loader ${loader} in test mode. A "
+"log is available in ${temp_file_name}. Please edit /etc/${loader}.conf "
+"manually and re-run ${loader}, or make other arrangements to boot your "
+"machine."
+
+#. Type: note
+#. Description
+#: ../templates:20001
+msgid ""
+"An error occurred while running the boot loader ${loader}. A log is "
+"available in ${temp_file_name}. Please edit /etc/${loader}.conf manually and "
+"re-run ${loader}, or make other arrangements to boot your machine."
+msgstr ""
+"An error occurred while running the boot loader ${loader}. A log is "
+"available in ${temp_file_name}. Please edit /etc/${loader}.conf manually and "
+"re-run ${loader}, or make other arrangements to boot your machine."
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../templates:21001 ../templates:22001
+msgid "Do you want to abort removal now?"
+msgstr "Quer abortar a remoção agora?"
+
+#. Type: boolean
+#. Description
+#: ../templates:21001
+msgid ""
+"You are running a kernel (version ${running}) and attempting to remove the "
+"same version. This is a potentially disastrous action. Not only will /boot/"
+"vmlinuz-${running} be removed, making it impossible to boot it, (you will "
+"have to take action to change your boot loader to boot a new kernel), it "
+"will also remove all modules under the directory /lib/modules/${running}. "
+"Just having a copy of the kernel image is not enough, you will have to "
+"replace the modules too."
+msgstr ""
+"You are running a kernel (version ${running}) and attempting to remove the "
+"same version. This is a potentially disastrous action. Not only will /boot/"
+"vmlinuz-${running} be removed, making it impossible to boot it, (you will "
+"have to take action to change your boot loader to boot a new kernel), it "
+"will also remove all modules under the directory /lib/modules/${running}. "
+"Just having a copy of the kernel image is not enough, you will have to "
+"replace the modules too."
+
+#. Type: boolean
+#. Description
+#: ../templates:21001
+msgid ""
+"I repeat, this is very dangerous. If at all in doubt, answer Yes. If you "
+"know exactly what you are doing, and are prepared to hose your system, then "
+"answer No."
+msgstr ""
+"I repeat, this is very dangerous. If at all in doubt, answer Yes. If you "
+"know exactly what you are doing, and are prepared to hose your system, then "
+"answer No."
+
+#. Type: boolean
+#. Description
+#: ../templates:22001
+msgid ""
+"You have a valid /etc/${loader}.conf file that mentions ${kimage}-=V.  "
+"Removing =ST-image-=V would invalidate that file. (you will have to edit /"
+"etc/${loader}.conf or re-target symbolic links mentioned there (typically, /"
+"vmlinuz and /vmlinuz.old) to not refer to ${kimage}-=V and will have to re-"
+"run ${loader})."
+msgstr ""
+"You have a valid /etc/${loader}.conf file that mentions ${kimage}-=V.  "
+"Removing =ST-image-=V would invalidate that file. (you will have to edit /"
+"etc/${loader}.conf or re-target symbolic links mentioned there (typically, /"
+"vmlinuz and /vmlinuz.old) to not refer to ${kimage}-=V and will have to re-"
+"run ${loader})."
+
+#. Type: boolean
+#. Description
+#: ../templates:22001
+msgid ""
+"I repeat: you shall have to make changes to your boot loader setup and will "
+"have to re-run ${loader}."
+msgstr ""
+"I repeat: you shall have to make changes to your boot loader setup and will "
+"have to re-run ${loader}."

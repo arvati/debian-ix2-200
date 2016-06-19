@@ -1,0 +1,58 @@
+=ST-source-=V (=D) UNRELEASED; urgency=low
+
+  * Changed bootargs at kernel and dts file and disabled ethernet not
+    available for Iomega Storcenter ix2-200.
+
+ -- Ademar Arvati Filho <vanaware@vanaware.com>  Sat, 18 Jun 2016 16:00:00 -0300
+
+
+=ST-headers-=V (=D) UNRELEASED; urgency=low
+
+  * Changed bootargs at kernel and dts file and disabled ethernet not
+    available for Iomega Storcenter ix2-200.
+
+ -- Ademar Arvati Filho <vanaware@vanaware.com>  Sat, 18 Jun 2016 16:00:00 -0300
+ 
+=ST-image-=V=SA (=D) UNRELEASED; urgency=low
+
+  * Changed bootargs at kernel and dts file and disabled ethernet not
+    available for Iomega Storcenter ix2-200.
+
+ -- Ademar Arvati Filho <vanaware@vanaware.com>  Sat, 18 Jun 2016 16:00:00 -0300
+
+=ST-image-=V=SA-dbg (=D) UNRELEASED; urgency=low
+
+  * Changed bootargs at kernel and dts file and disabled ethernet not
+    available for Iomega Storcenter ix2-200.
+
+ -- Ademar Arvati Filho <vanaware@vanaware.com>  Sat, 18 Jun 2016 16:00:00 -0300
+
+
+=ST-doc-=V (=D) UNRELEASED; urgency=low
+
+  * Changed bootargs at kernel and dts file and disabled ethernet not
+    available for Iomega Storcenter ix2-200.
+
+ -- Ademar Arvati Filho <vanaware@vanaware.com>  Sat, 18 Jun 2016 16:00:00 -0300
+ 
+=ST-manual-=V (=D) UNRELEASED; urgency=low
+
+  * Changed bootargs at kernel and dts file and disabled ethernet not
+    available for Iomega Storcenter ix2-200.
+
+ -- Ademar Arvati Filho <vanaware@vanaware.com>  Sat, 18 Jun 2016 16:00:00 -0300
+ 
+=ST-uml-=V=SA (=D) UNRELEASED; urgency=low
+
+  * Changed bootargs at kernel and dts file and disabled ethernet not
+    available for Iomega Storcenter ix2-200.
+
+ -- Ademar Arvati Filho <vanaware@vanaware.com>  Sat, 18 Jun 2016 16:00:00 -0300
+ 
+
+
+
+
+Local variables:
+mode: debian-changelog
+End:

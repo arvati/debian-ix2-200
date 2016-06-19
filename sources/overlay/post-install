@@ -1,0 +1,30 @@
+#! /bin/bash
+set -e
+#${version} = 4.6.1-kirkwood-iomega-ix2-200-arvati1
+#${IMAGE_TOP} = /root/src/linux-source-4.6/debian/linux-image-4.6.1-kirkwood-iomega-ix2-200-arvati1
+#examples/etc/kernel/postinst.d/ix2-200
+
+
+#/root/src/linux-source-4.6/debian/linux-image-4.6.1-kirkwood-iomega-ix2-200-arvati1/boot/System.map-4.6.1-kirkwood-iomega-ix2-200-arvati1
+#/root/src/linux-source-4.6/debian/linux-image-4.6.1-kirkwood-iomega-ix2-200-arvati1/boot/vmlinuz-4.6.1-kirkwood-iomega-ix2-200-arvati1
+#/root/src/linux-source-4.6/debian/linux-image-4.6.1-kirkwood-iomega-ix2-200-arvati1/boot/config-4.6.1-kirkwood-iomega-ix2-200-arvati1
+
+
+if [ "$IMAGE_TOP" != "" ]; then
+if [ "$version" != "" ]; then
+#find ${IMAGE_TOP}/ -type f -print > /root/src/post-install-msg
+mkdir -p "${IMAGE_TOP}/etc/kernel/postinst.d/$version/"
+mkdir -p "${IMAGE_TOP}/etc/kernel/postrm.d/$version/"
+mkdir -p "${IMAGE_TOP}/usr/lib/linux-image-${version}/"
+
+cp "${IMAGE_TOP}/../examples/etc/kernel/postinst.d/ix2-200" "${IMAGE_TOP}/etc/kernel/postinst.d/$version/"
+cp "${IMAGE_TOP}/../examples/etc/kernel/postrm.d/ix2-200" "${IMAGE_TOP}/etc/kernel/postrm.d/$version/"
+cp "${IMAGE_TOP}/../../arch/arm/boot/dts/kirkwood-iomega_ix2_200.dtb" "${IMAGE_TOP}/usr/lib/linux-image-${version}/"
+cp "${IMAGE_TOP}/../../arch/arm/boot/dts/kirkwood-iomega_ix2_200.dts" "${IMAGE_TOP}/usr/lib/linux-image-${version}/"
+
+
+fi
+fi
+
+
+exit 0
