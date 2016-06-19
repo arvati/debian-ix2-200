@@ -1,7 +1,7 @@
 Debian Linux on ix2-200
 =======
 
-Configs and tools for installing vanilla Debian 'Jessie' Linux on a iomega ix2-200 NAS
+Install Debian 'Jessie' Linux on a iomega ix2-200 NAS
 
 About ix2-200
 ------
@@ -63,109 +63,255 @@ More info available at http://iomega.nas-central.org/wiki/Category:Ix2-200
 
 Pre-requisites
 ------
-+ Debian GNU Linux 8 Jessie
-+ Arch i386 is reccomended 
++ Debian or Ubuntu Machine
 
-I suggest to create a dev environment using an LXC container with Debian Jessie i686:
+### Create an LXC container ###
+Create a dev environment using an LXC container with Debian Jessie i686:
 
 ```bash
-sudo lxc-create -t debian -n crossdebian -- -r jessie -a i686
+sudo lxc-create -t debian -n crossjessie -- -r jessie -a i686
+sudo lxc-stop -n crossjessie --kill
+sudo chroot /var/lib/lxc/crossjessie/rootfs
+apt-get install sysvinit-core curl nano
+exit
+echo "lxc.aa_profile = unconfined" | sudo tee -a /var/lib/lxc/crossjessie/config
+```
+
+To run some command you can do:
+```bash
+sudo lxc-start -d -n crossjessie
+sudo lxc-attach -n crossjessie -- apt-get update
+```
+
+To have a full termnal you can do (user root password root):
+```bash
+sudo lxc-start -d -n crossjessie
+sudo lxc-console -n crossjessie -t 1
+```
+### Prepare the LXC container ###
+Make some adjustments inside LXC container
+```bash
+nano /etc/apt/sources.list
+deb http://http.debian.net/debian          jessie         main contrib non-free
+deb http://http.debian.net/debian          unstable         main contrib non-free
+deb http://security.debian.org/ jessie/updates main contrib non-free
+deb http://emdebian.org/tools/debian/ jessie  main
+deb http://emdebian.org/tools/debian/ unstable  main
+deb-src http://ftp.br.debian.org/debian/ jessie main contrib non-free
+deb-src http://ftp.br.debian.org/debian/ unstable main contrib non-free
+```
+
+```bash
+nano /etc/apt/preferences.d/main
+Package: * 
+Pin: release a=stable 
+Pin-Priority: 900
+
+Package: *
+Pin: release a=jessie
+Pin-Priority: 600
+
+Package: * 
+Pin: release a=unstable 
+Pin-Priority: 100
+```
+
+```bash
+nano /etc/apt/apt.conf.d/70debconf
+// Pre-configure all packages with debconf before they are installed.
+// If you don't like it, comment it out.
+DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt || true";};
+APT::Default-Release "jessie";
+```
+
+```bash
+curl http://emdebian.org/tools/debian/emdebian-toolchain-archive.key | sudo apt-key add -
+dpkg --add-architecture armel 
+apt-get update 
+apt-get install wget devscripts crossbuild-essential-armel kernel-package gcc-arm-linux-gnueabi ncurses-dev u-boot-tools sshpass xz-utils fakeroot
 ```
 
 Cross compiling the kernel
 ------
-### Setup cross compiler ###
 
-```bash
-# Add the embedian repo:
-echo "deb http://emdebian.org/tools/debian/ jessie main" >> /etc/apt/sources.list
-curl http://emdebian.org/tools/debian/emdebian-toolchain-archive.key | apt-key add -
-
-# Add the source repo:
-echo "deb-src http://mi.mirror.garr.it/mirrors/debian/ jessie main contrib non-free" >> /etc/apt/sources.list
-
-dpkg --add-architecture armel
-apt-get update
-apt-get install wget devscripts crossbuild-essential-armel kernel-package ncurses-dev
-```
 
 ### Get the sources ###
+
 ```bash
-cd /usr/src
-apt-get source linux
+apt-get  install -t unstable linux-source-4.6
+mkdir ~/src; cd ~/src
+tar xf /usr/src/linux-source-4.6.tar.xz
+cd linux-source-4.6
+unxz /usr/src/linux-config-4.6/config.armel_none_marvell.xz
+cp -vi /usr/src/linux-config-4.6/config.armel_none_marvell .config
+unxz /usr/src/linux-patch-4.6-rt.patch.xz
+cp /usr/src/linux-patch-4.6-rt.patch ~/src/linux-source-4.6
+patch -p1 --dry-run -i ../linux-patch-4.6-rt.patch
+
+# IF THERE IS NO ERRORS THEN
+# patch -p1 -i ../linux-patch-4.6-rt.patch
+echo "-kirkwood-iomega-ix2-200" > localversion-rt
 ```
+
+### Modify your name ###
+```bash
+nano /etc/kernel-pkg.conf
+# The maintainer information.
+maintainer := Ademar Arvati Filho
+email := vanaware@vanaware.com
+# Priority of this version (or urgency, as dchanges would call it)
+priority := Low
+# This is the Debian revision number (defaulted to $(version)-10.00.Custom in debian/rules) 
+ debian = $(version)
+```
+
+### Get some more sources ###
+download overlay dir to ~/src/overlay/
+download config file to ~/src/linux-source-4.6/.config
+download dtb and dts files to ~/src/linux-source-4.6/arch/arm/boot/dts
 
 ### Configure the kernel ###
 ```bash
-export CC=arm-linux-gnueabi-gcc
-export CROSS_COMPILE=arm-linux-gnueabi-
-export ARCH=arm
+cd ~/src/linux-source-4.6
+export TOOL_PREFIX="arm-linux-gnueabi" 
+export CC="${TOOL_PREFIX}-gcc" 
+export CXX="${TOOL_PREFIX}-g++"
+export CROSS_COMPILE="${TOOL_PREFIX}-" 
+export CFLAGS="-march=armv5te -mfloat-abi=soft -marm" 
+export ARCH="arm"
 export DEB_HOST_ARCH=armel
+export LOCALVERSION="-arvati2" 
+export CONCURRENCY_LEVEL=`grep -m1 cpu\ cores /proc/cpuinfo | cut -d : -f 2`
+export INSTALL_MOD_PATH=/root/src/modules
+export MODULE_LOC="${INSTALL_MOD_PATH}"
+export UIMAGE_LOADADDR=0x8000
+export KPKG_OVERLAY_DIR=/root/src/overlay
+export DEBIAN_REVISION_MANDATORY=true
+export INITRD=true
 
-make-kpkg clean
-
-wget -O- https://raw.githubusercontent.com/daniviga/ix2-200/master/configs/config-3.16.7-ix2-200 > .config
-make oldconfig
-```
-
-### Generate the dtb only ###
-```bash
-make dtbs
-```
-
-### Build the full kernel ###
-```bash
-# Optional
+# make some adjustments as needed
 make menuconfig
 
-make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- EXTRAVERSION=-ix2-200 KDEB_PKGVERSION=1 KBUILD_DEBARCH=armel deb-pkg
+# Check version number desired
+make kernelrelease
+
+make-kpkg clean 
+make dtbs
+make uImage
+make modules
+make modules_install
+make-kpkg --rootcmd fakeroot binary-arch kernel_source  > log_file 2>&1 & 
+watch 'head -n 2 log_file; tail log_file'
 ```
 
-### Append the dtb to the kernel ###
+### Check files included in package ###
 ```bash
-cp arch/arm/boot/dts/kirkwood-iomega_ix2_200.dtb /boot
-cd /boot
-cat vmlinuz-3.16.7-ix2-200 kirkwood-iomega_ix2_200.dtb > vmlinuz-3.16.7-ix2-200-dtb
+dpkg-deb -c ../linux-image-4.6.1-kirkwood-iomega-ix2-200-arvati2_armel.deb | less
 ```
 
-### Install the new kernel on the device ###
-```bash
-mkimage -A arm -O linux -T ramdisk -C gzip -a 0x00000000 -e 0x00000000 -n initramfs -d initrd.img-3.16.7-ix2-200 uInitrd
-mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n Linux+dtb -d vmlinuz-3.16.7-ix2-200-dtb uImage-dtb
-```
-```bash
-flash_eraseall /dev/mtd0
-flash_eraseall /dev/mtd1
-
-nandwrite -p /dev/mtd0 /boot/uImage-dtb
-nandwrite -p /dev/mtd1 /boot/uInitrd 
-```
-
-Boot examples
+Installing the kernel
 ------
-### Boot from USB ###
+
+### Install new kernel package ###
+transfer files to target:
 ```bash
-usb start
-setenv bootargs_console 'console=ttyS0,115200 mtdparts=orion_nand:0x300000@0x100000(uImage),0x1000000@0x540000(uInitrd) root=/dev/sda1'
+scp  ../*.deb root@192.168.1.13:/root
+```
+
+Install deb packages:
+```bash
+ssh root@192.168.1.13
+sudo dpkg -i linux-image-4.6.1-kirkwood-iomega-ix2-200-arvati2_armel.deb
+sudo dpkg -i linux-headers-4.6.1-kirkwood-iomega-ix2-200-arvati2_armel.deb
+```
+
+Exit target and lxc container:
+```bash
+exit
+exit
+CTRL+A + q
+sudo lxc-stop -n crossjessie
+```
+
+Copy result files to a tftp server:
+Config tftp server dir /var/lib/tftpboot at cat /etc/default/tftpd-hpa
+
+```bash
+scp root@192.168.1.13:/boot/*-4.6.1-kirkwood-iomega-ix2-200-arvati2 /var/lib/tftpboot/
+scp root@192.168.1.13:/usr/lib/linux-image-4.6.1-kirkwood-iomega-ix2-200-arvati2/* /var/lib/tftpboot/
+```
+
+
+### Test the kernel ###
+
+Conect with a serial device to target
+```bash
+screen /dev/ttyUSB0 115200
+```
+
+Test it using a tFtp Server
+```bash
+setenv bootargs_console 'root=/dev/mapper/root-root'
 setenv bootargs $(bootargs_console)
-ext2load usb 0:1 0x00800000 /uImage-new
-ext2load usb 0:1 0x01100000 /uInitrd-new
+setenv serverip 192.168.1.31
+setenv ipaddr 192.168.1.13
+tftpboot 0x01100000 uInitrd-4.6.1-kirkwood-iomega-ix2-200-arvati2
+tftpboot 0x00800000 uImage+dtb-4.6.1-kirkwood-iomega-ix2-200-arvati2
 bootm 0x00800000 0x01100000
 ```
+Modify root=/dev/mapper/root-root as yours needs !!!
 
-### Boot from internal flash ###
+
+### Install the new kernel on the device ###
+
 ```bash
-setenv mtdparts 'mtdparts=orion_nand:0x100000@0x000000(uboot)ro,0x20000@0xA0000(uboot_env),0x300000@0x100000(uImage),0x1000000@0x540000(uInitrd)'
-setenv bootargs_console 'console=ttyS0,115200 mtdparts=orion_nand:0x300000@0x100000(uImage),0x1000000@0x540000(uInitrd) root=/dev/sda1'
-setenv bootcmd 'setenv bootargs $(bootargs_console); nand read 0x800000 uImage; nand read 0x1100000 uInitrd; bootm 0x00800000 0x01100000'
+cat /proc/mtd
+dev:    size   erasesize  name
+mtd0: 00100000 00004000 "uboot"
+mtd1: 00020000 00004000 "env"
+mtd2: 00300000 00004000 "uImage"
+mtd3: 01c00000 00004000 "rootfs"
+
+# Modify mtd2 or mtd3 with the corrected partition !!!! 
+
+flash_eraseall /dev/mtd2
+nandwrite -p /dev/mtd2 /boot/uImage+dtb-4.6.1-kirkwood-iomega-ix2-200-arvati2
+
+flash_eraseall /dev/mtd3
+nandwrite -p /dev/mtd3 /boot/uInitrd-4.6.1-kirkwood-iomega-ix2-200-arvati2
+
+reboot
+```
+
+### Make changes in uboot ###
+```bash
+setenv mtdids 'nand0=orion_nand'
+setenv mtdparts 'mtdparts=orion_nand:0x100000@0x000000(uboot)ro,0x20000@0xA0000(env),0x300000@0x100000(uImage),0x1C00000@0x400000(rootfs)'
+setenv bootargs_console 'root=/dev/mapper/root-root'
+setenv bootcmd 'setenv bootargs $(bootargs_console); nand read 0x800000 uImage; nand read 0x1100000 rootfs; bootm 0x00800000 0x01100000'
 saveenv
 reset
 ```
 
+
 Links and sources
 ------
++ https://github.com/daniviga/ix2-200
 + http://blog.nobiscuit.com/2011/08/06/installing-debian-to-disk-on-an-ix2-200/
 + http://blog.nobiscuit.com/2012/02/15/kernel-patch-to-support-leds-buttons-and-sensors/
 + http://iomega.nas-central.org/wiki/Category:Ix2-200
 + https://wiki.debian.org/CrossToolchains
 + http://lacie-nas.org/doku.php?id=making_kernel_with_dtb
++ http://debian-br.alioth.debian.org/docs/nacionais/sgml/kdebian/kdebian.txt
++ http://forum.doozan.com/read.php?2,12096
++ https://wiki.debian.org/CrossToolchains
++ https://www.howtoforge.com/kernel_compilation_debian_etch#how-to-compile-a-kernel-debian-etch-
++ http://kernel-handbook.alioth.debian.org/ch-common-tasks.html#s-common-official
++ http://crunchbang.org/forums/viewtopic.php?id=37681
++ https://debian-handbook.info/browse/stable/sect.kernel-compilation.html
++ https://syslint.com/blog/tutorial/how-to-compile-linux-kernel-in-debian-ubuntu-the-easy-way/
++ http://www.arm.linux.org.uk/docs/kerncomp.php
++ https://help.ubuntu.com/community/Kernel/Compile#AltBuildMethod
++ http://forum.odroid.com/viewtopic.php?f=112&t=11241
++ https://github.com/umiddelb/armhf/wiki/How-To-compile-a-custom-Linux-kernel-for-your-ARM-device
++ https://lists.debian.org/debian-powerpc/2009/07/msg00042.html
