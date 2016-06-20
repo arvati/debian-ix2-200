@@ -162,7 +162,7 @@ email := vanaware@vanaware.com
 # Priority of this version (or urgency, as dchanges would call it)
 priority := Low
 # This is the Debian revision number (defaulted to $(version)-10.00.Custom in debian/rules) 
- debian = $(version)
+ debian = 1
 ```
 
 ### Get some more sources ###
