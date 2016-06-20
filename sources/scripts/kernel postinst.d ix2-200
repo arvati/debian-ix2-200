@@ -1,0 +1,80 @@
+#! /bin/bash
+set -e
+version="$1"
+vmlinuz_location="$2"
+
+# passing the kernel version is required
+[ -z "$version" ] && exit 1
+
+MODULEDIR=/lib/modules/$version
+HEADERDIR=/usr/src/linux-headers-$version
+
+boot='/boot'
+if [ -n "$vmlinuz_location" ]; then
+	# Where is the image located?
+	boot=$(dirname "$vmlinuz_location")
+fi
+initramfs_location="$boot/initrd.img-$version"
+bootarg="-b $boot"
+
+# avoid running multiple times
+if [ -n "$DEB_MAINT_PARAMS" ]; then
+	eval set -- "$DEB_MAINT_PARAMS"
+	if [ -z "$1" ] || [ "$1" != "configure" ]; then
+		exit 0
+	fi
+fi
+
+echo "Generating zImage+dtb version ${version}"
+cat "$vmlinuz_location" "/usr/lib/linux-image-${version}/kirkwood-iomega_ix2_200.dtb" > "$boot/zImage+dtb-${version}"
+
+echo "Generating uImage+dtb version ${version}"
+mkimage -A arm -O linux -T kernel -C none -a 0x00008000 -e 0x00008000 -n Linux+dtb-${version} -d "$boot/zImage+dtb-${version}" "$boot/uImage+dtb-${version}"
+
+
+if ! [ -e "$initramfs_location" ]; then 
+	if which update-initramfs >/dev/null ; then
+		# check if kernel does not need an initramfs
+		if [ -n "$INITRD" ] && [ "$INITRD" = 'No' ]; then
+			echo "Kernel does not need an initramfs ..."
+		else
+		# we're good - create initramfs...
+		INITRAMFS_TOOLS_KERNEL_HOOK=1 update-initramfs -c -t -k "$version" $bootarg			
+		fi
+	fi
+fi
+
+if [ -e "$initramfs_location" ]; then 
+	echo "Generating uInitrd version ${version}"
+	mkimage -A arm -O linux -T ramdisk -C gzip -a 0x00000000 -e 0x00000000 -n initramfs -d "$initramfs_location" "$boot/uInitrd-${version}"
+fi
+
+echo "Generating Symlinks .."
+if [ -f "$boot/uInitrd-${version}" ] ; then
+   rm -f "$boot/uInitrd.old" "$boot/uImage+dtb.old"  || true
+   mv "$boot/uInitrd" "$boot/uInitrd.old" || true
+   mv "$boot/uImage+dtb" "$boot/uImage+dtb.old" || true
+   ln -s "$boot/uInitrd-${version}" "$boot/uInitrd" || true
+   ln -s "$boot/uImage+dtb-${version}" "$boot/uImage+dtb" || true
+else
+   rm -f "$boot/uImage+dtb.old" || true
+   mv "$boot/uImage+dtb" "$boot/uImage+dtb.old" || true
+   ln -s "$boot/uImage+dtb-${version}" "$boot/uImage+dtb" || true
+fi
+
+# Experimental (use of your own risk)
+# Routines to flash kernel into nand will work after first boot with customized kernel and bootargs
+
+# var=$(echo $(cat /proc/mtd | grep uImage))
+# uImage_mtd=${var%%:*}
+#flash_eraseall /dev/$uImage_mtd
+#nandwrite -p /dev/$uImage_mtd "$boot/uImage+dtb-${version}"
+
+# var=$(echo $(cat /proc/mtd | grep rootfs))
+# rootfs_mtd=${var%%:*}
+#flash_eraseall /dev/$rootfs_mtd
+#nandwrite -p /dev/$rootfs_mtd "$boot/uInitrd-${version}"
+
+
+
+

@@ -13,7 +13,7 @@
 	};
 
 	chosen {
-		bootargs = "console=ttyS0,115200n8 earlyprintk";
+		bootargs = "console=ttyS0,115200n8 mtdparts=orion_nand:0x100000@0x000000(uboot)ro,0x20000@0xA0000(env)ro,0x300000@0x100000(uImage),0x1C00000@0x400000(rootfs)";
 		stdout-path = &uart0;
 	};
 
@@ -179,7 +179,7 @@
 	status = "okay";
 
 	partition@0 {
-		label = "u-boot";
+		label = "uboot";
 		reg = <0x0000000 0x100000>;
 		read-only;
 	};
@@ -210,7 +210,7 @@
 };
 
 &eth0 {
-	status = "okay";
+	status = "disabled";
 	ethernet0-port@0 {
 		speed = <1000>;
 		duplex = <1>;
