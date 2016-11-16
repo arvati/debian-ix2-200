@@ -142,16 +142,16 @@ apt-get  install -t unstable linux-source-4.8
 mkdir ~/src; cd ~/src
 tar xf /usr/src/linux-source-4.8.tar.xz
 cd linux-source-4.8
-unxz /usr/src/linux-config-4.6/config.armel_none_marvell.xz
-cp -vi /usr/src/linux-config-4.6/config.armel_none_marvell .config
+unxz /usr/src/linux-config-4.8/config.armel_none_marvell.xz
+cp -vi /usr/src/linux-config-4.8/config.armel_none_marvell .config
 
 # IF want to compile rt kernel THEN
-unxz /usr/src/linux-patch-4.6-rt.patch.xz
-cp /usr/src/linux-patch-4.6-rt.patch ~/src/linux-source-4.6
-patch -p1 --dry-run -i ../linux-patch-4.6-rt.patch
+unxz /usr/src/linux-patch-4.8-rt.patch.xz
+cp /usr/src/linux-patch-4.8-rt.patch ~/src/linux-source-4.8
+patch -p1 --dry-run -i ../linux-patch-4.8-rt.patch
 
 # IF THERE IS NO ERRORS THEN
-# patch -p1 -i ../linux-patch-4.6-rt.patch
+# patch -p1 -i ../linux-patch-4.8-rt.patch
 
 echo "-kirkwood-iomega-ix2-200" > localversion-rt
 echo "-kirkwood-iomega-ix2-200" > localversion
