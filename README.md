@@ -99,6 +99,8 @@ To have a full termnal you can do (user root password root):
 sudo lxc-start -d -n crossjessie
 sudo lxc-start -d -n ix2-200
 
+sudo lxc-attach -n ix2-200 passwd
+
 sudo lxc-console -n crossjessie -t 1
 sudo lxc-console -n ix2-200 -t 1
 ```
