@@ -70,34 +70,56 @@ Create a dev environment using an LXC container with Debian Jessie i686:
 
 ```bash
 sudo lxc-create -t debian -n crossjessie -- -r jessie -a i686
+sudo lxc-create -t debian -n ix2-200 -- -r stretch -a i386
+
 sudo lxc-stop -n crossjessie --kill
+sudo lxc-stop -n ix2-200 --kill
+
 sudo chroot /var/lib/lxc/crossjessie/rootfs
+sudo chroot /var/lib/lxc/ix2-200/rootfs
+
 apt-get install sysvinit-core curl nano
 exit
 echo "lxc.aa_profile = unconfined" | sudo tee -a /var/lib/lxc/crossjessie/config
+echo "lxc.aa_profile = unconfined" | sudo tee -a /var/lib/lxc/ix2-200/config
+
 ```
 
 To run some command you can do:
 ```bash
 sudo lxc-start -d -n crossjessie
+sudo lxc-start -d -n ix2-200
+
 sudo lxc-attach -n crossjessie -- apt-get update
+sudo lxc-attach -n ix2-200 -- apt-get update
 ```
 
 To have a full termnal you can do (user root password root):
 ```bash
 sudo lxc-start -d -n crossjessie
+sudo lxc-start -d -n ix2-200
+
 sudo lxc-console -n crossjessie -t 1
+sudo lxc-console -n ix2-200 -t 1
 ```
 ### Prepare the LXC container ###
 Make some adjustments inside LXC container
 ```bash
 nano /etc/apt/sources.list
-deb http://http.debian.net/debian          jessie         main contrib non-free
+deb http://http.debian.net/debian          stretch         main contrib non-free
+#deb http://http.debian.net/debian          jessie         main contrib non-free
+
 deb http://http.debian.net/debian          unstable         main contrib non-free
-deb http://security.debian.org/ jessie/updates main contrib non-free
-deb http://emdebian.org/tools/debian/ jessie  main
+deb http://security.debian.org/ stretch/updates main contrib non-free
+#deb http://security.debian.org/ jessie/updates main contrib non-free
+
+deb http://emdebian.org/tools/debian/ stretch  main
+#deb http://emdebian.org/tools/debian/ jessie  main
+
 deb http://emdebian.org/tools/debian/ unstable  main
-deb-src http://ftp.br.debian.org/debian/ jessie main contrib non-free
+deb-src http://ftp.br.debian.org/debian/ stretch main contrib non-free
+#deb-src http://ftp.br.debian.org/debian/ jessie main contrib non-free
+
 deb-src http://ftp.br.debian.org/debian/ unstable main contrib non-free
 ```
 
@@ -108,7 +130,8 @@ Pin: release a=stable
 Pin-Priority: 900
 
 Package: *
-Pin: release a=jessie
+Pin: release a=stretch
+#Pin: release a=jessie
 Pin-Priority: 600
 
 Package: * 
@@ -121,7 +144,8 @@ nano /etc/apt/apt.conf.d/70debconf
 // Pre-configure all packages with debconf before they are installed.
 // If you don't like it, comment it out.
 DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt || true";};
-APT::Default-Release "jessie";
+APT::Default-Release "stretch";
+//APT::Default-Release "jessie";
 ```
 
 ```bash
