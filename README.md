@@ -3,6 +3,8 @@ Debian Linux on ix2-200
 
 Install Debian 'Jessie' Linux on a iomega ix2-200 NAS
 
+As an alternative you may install openwrt = https://github.com/vanaware/openwrt/releases/tag/v17.01.4-iomega_ix2_200-v1
+
 About ix2-200
 ------
 The iomega ix2-200 NAS is a dual SATA NAS powered by a Marvell Kirkwood SoC clocked at 1GHz. It has 256MB of RAM and 32MB of flash memory. 3x USB 2.0 and 1x 1Gbit/s NIC are available.
